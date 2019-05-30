@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="css/dataTables.bootstrap4.min.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="DataTables/datatables.min.css"/>
+	<link rel="stylesheet" type="text/css" href="css/default.css">
+	<script type="text/javascript" src="js/bootstrap.min.js"></script>	
+	<script type="text/javascript" src="DataTables/datatables.min.js"></script>
+	<script type="text/javascript" src="js/script.js"></script>
+	<script type="text/javascript" src="js/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" src="js/dataTables.bootstrap4.min.js"></script>
+	
+</head>
+<body>
+	<div class="col-xs-12">
+		<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+		  <a class="navbar-brand" href="#">
+		    <img src="img/bv_logo.png" alt="logo" style="width:200px;">
+		  </a>
+		  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+		    <span class="navbar-toggler-icon"></span>
+		  </button>
+
+		  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+		    <ul class="navbar-nav mr-auto">
+		      <li class="nav-item active">
+		        <a class="nav-link" href="https://www.beenverified.com/" target="blank">Website <span class="sr-only">(current)</span><i class="fas fa-globe"></i></a>
+		      </li>
+		      <li class="nav-item">
+		        <a style="display: none;" id="checkReports" class="nav-link" href="#">Check reports</a>
+		      </li>
+		    </ul>
+		    <form style="visibility: hidden;" class="form-inline" action="">
+		        <input id="email" class="form-control mr-sm-2" type="email" placeholder="Enter an email">
+		        <button id="btnSearch" class="btn btn-success" type="button">Search reports</button>
+		    </form>
+		    <ul id="rightElements" class="nav navbar-nav navbar-right">
+		      <li class="nav-item">
+		      	<a id="right_item1" class="nav-link" href="#"><i class="fas fa-sign-in-alt"></i> Login</a>
+		      </li> 		
+		      <li class="nav-item">
+		      	<a id="right_item2" class="nav-link" href="#"><i class="fa fa-user"></i> Sign Up</a>
+		      </li>    
+		    </ul>
+		  </div>
+		</nav>
+	</div>
+
+	<div class="container" id="container">
+
+		<div class="row" id="form" style="display:none;">
+			<div class="d-flex justify-content-center h-100">
+				<div class="card">
+					<div class="card-header">
+						<h3 id="txtAction">Sign In</h3>
+						<div class="d-flex justify-content-end social_icon">
+							<span><a style="color: #4d46e6;" href="https://www.facebook.com/BeenVerified/"><i class="fab fa-facebook-square"></i></a></span>
+						</div>
+					</div>
+					<div class="card-body">
+						<form>
+							<div class="input-group form-group">
+								<div class="input-group-prepend">
+									<span class="input-group-text"><i class="fas fa-user"></i></span>
+								</div>
+								<input type="email" id="user" class="form-control" placeholder="Username" required="true">
+								
+							</div>
+							<div class="input-group form-group">
+								<div class="input-group-prepend">
+									<span id="passSpan" class="input-group-text"><i class="fas fa-key"></i></span>
+								</div>
+								<input type="password" id="pass" class="form-control" placeholder="Password" required="true">
+							</div>
+							<div class="row align-items-center remember">
+								<input type="checkbox">Remember Me
+							</div>
+							<div class="form-group">
+								<input onclick="loginButtonAction()" type="button" id="btnLogin" value="Log in" class="btn float-right login_btn">
+								<input type="reset" value="Reset" class="btn float-right login_btn">
+								
+							</div>
+						</form>
+					</div>
+					<div class="card-footer">
+						<div class="d-flex justify-content-center links">
+							Welcome<!--<a id="register" href="#">Sign Up</a>-->
+						</div>
+						<!--<div class="d-flex justify-content-center">
+							<a href="#">Forgot your password?</a>
+						</div>-->
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="container" id="table" style="display: none;">
+			<div class="row">
+				<div class="col-md-12 text-center">
+					<h1>Reports</h1>
+					<hr>
+				</div>	
+			</div>  
+			<div class="row">	
+				<div class="col-md-12">
+					<table class="table table-striped table-bordered">
+				        <thead style="text-align: center;">
+				            <tr>
+				                <th>Email</th>
+				                <th>View</th>
+				            </tr>
+				        </thead>
+				        <tbody id="tableBody" style="text-align: center;">
+				        </tbody>
+				    </table>
+				</div> 
+			</div>   
+	 	</div>
+	</div>
+
+		<!-- The Modal -->
+		<div class="modal fade" id="modal" role="dialog">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		    
+		      <!-- Modal Header -->
+		      <div class="modal-header">
+		        <h4 class="modal-title">Access Data</h4>
+		        <button type="button" class="close" data-dismiss="modal">&times;</button>
+		      </div>
+		      
+		      <!-- Modal body -->
+		      <div class="modal-body">
+		        <p id="modalText"></p>
+		      </div>
+		      
+		      <!-- Modal footer -->
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-success" data-dismiss="modal">Ok</button>
+		      </div>
+		      
+		    </div>
+		  </div>
+		</div>  
+
+		<div class="modal fade" id="modal2" role="dialog">
+		  <div class="modal-dialog modal-lg">
+		    <div class="modal-content">
+		    
+		      <!-- Modal Header -->
+		      <div class="modal-header">
+		        <h4 class="modal-title">Report data</h4>
+		        <button type="button" class="close" data-dismiss="modal">&times;</button>
+		      </div>
+		      
+		      <!-- Modal body -->
+		      <div class="modal-body">
+		        
+		          <ul class="nav nav-tabs" id="myTab" role="tablist">
+		            <li class="nav-item">
+		              <a class="nav-link active" id="menu1-tab" data-toggle="tab" href="#menu1" role="tab" aria-controls="menu1" aria-selected="true">Name</a>
+		            </li>
+		            <li class="nav-item">
+		              <a class="nav-link" id="menu2-tab" data-toggle="tab" href="#menu2" role="tab" aria-controls="menu2" aria-selected="false">Gender</a>
+		            </li>
+		            <li class="nav-item">
+		              <a class="nav-link" id="menu3-tab" data-toggle="tab" href="#menu3" role="tab" aria-controls="menu3" aria-selected="false">Address</a>
+		            </li>
+		            <li class="nav-item">
+		              <a class="nav-link" id="menu4-tab" data-toggle="tab" href="#menu4" role="tab" aria-controls="menu4" aria-selected="false">Phone</a>
+		            </li>
+		            <li class="nav-item">
+		              <a class="nav-link" id="menu5-tab" data-toggle="tab" href="#menu5" role="tab" aria-controls="menu5" aria-selected="false">Email</a>
+		            </li>
+		            <li class="nav-item">
+		              <a class="nav-link" id="menu6-tab" data-toggle="tab" href="#menu6" role="tab" aria-controls="menu6" aria-selected="false">Job</a>
+		            </li>
+		            <li class="nav-item">
+		              <a class="nav-link" id="menu7-tab" data-toggle="tab" href="#menu7" role="tab" aria-controls="menu7" aria-selected="false">Socials</a>
+		            </li>
+		          </ul>
+		          <div class="tab-content" id="myTabContent">
+		            <div class="tab-pane fade show active" id="menu1" role="tabpanel" aria-labelledby="menu1-tab"></div>
+		            <div class="tab-pane fade" id="menu2" role="tabpanel" aria-labelledby="menu2-tab"></div>
+		            <div class="tab-pane fade" id="menu3" role="tabpanel" aria-labelledby="menu3-tab"></div>
+		            <div class="tab-pane fade" id="menu4" role="tabpanel" aria-labelledby="menu4-tab"></div>
+		            <div class="tab-pane fade" id="menu5" role="tabpanel" aria-labelledby="menu5-tab"></div>
+		            <div class="tab-pane fade" id="menu6" role="tabpanel" aria-labelledby="menu6-tab"></div>
+		            <div class="tab-pane fade" id="menu7" role="tabpanel" aria-labelledby="menu7-tab"></div>
+		          </div>
+		        
+		      </div>
+		     
+		      <!-- Modal footer -->
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-success" data-dismiss="modal">Close</button>
+		      </div>
+		      
+		    </div>
+		  </div>
+		</div> 
+  
+</body>
+</html>
